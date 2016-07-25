@@ -22,7 +22,7 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 - sgrep:   Greps on all local source files.
 - godir:   Go to the directory containing a file.
 - pushboot:Push a file from your OUT dir to your phone and reboots it, using absolute path.
-
+- reposync:Run repo sync configured for fastest download speed.
 Environemnt options:
 - SANITIZE_HOST: Set to 'true' to use ASAN for all host modules. Note that
                  ASAN_OPTIONS=detect_leaks=0 will be set by default until the
@@ -1257,7 +1257,10 @@ function rcgrep()
 {
     find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f -name "*\.rc*" -print0 | xargs -0 grep --color -n "$@"
 }
-
+function reposync()
+{
+	repo sync -j4 --force-sync -f --no-tags -c --no-repo-verify --no-clone-bundle
+}
 case `uname -s` in
     Darwin)
         function mgrep()
